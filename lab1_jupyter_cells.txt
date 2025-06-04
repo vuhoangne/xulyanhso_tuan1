@@ -1,0 +1,328 @@
+# Bài 1: Viết chương trình nạp một ảnh và lưu thành 3 ảnh với 3 màu khác nhau
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+#bai1
+# Đọc ảnh
+img = cv2.imread('bird.png')
+
+# Kiểm tra xem ảnh có được đọc thành công không
+if img is None:
+    print("Không thể đọc ảnh. Vui lòng kiểm tra đường dẫn.")
+else:
+    # Chuyển từ BGR sang RGB để hiển thị
+    img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    
+    # Tạo 3 ảnh với 3 màu khác nhau
+    # Ảnh 1: Chỉ giữ kênh đỏ
+    red_img = img_rgb.copy()
+    red_img[:, :, 1] = 0  # Xóa kênh xanh lá
+    red_img[:, :, 2] = 0  # Xóa kênh xanh dương
+    
+    # Ảnh 2: Chỉ giữ kênh xanh lá
+    green_img = img_rgb.copy()
+    green_img[:, :, 0] = 0  # Xóa kênh đỏ
+    green_img[:, :, 2] = 0  # Xóa kênh xanh dương
+    
+    # Ảnh 3: Chỉ giữ kênh xanh dương
+    blue_img = img_rgb.copy()
+    blue_img[:, :, 0] = 0  # Xóa kênh đỏ
+    blue_img[:, :, 1] = 0  # Xóa kênh xanh lá
+    
+    # Lưu các ảnh
+    cv2.imwrite('red_image.jpg', cv2.cvtColor(red_img, cv2.COLOR_RGB2BGR))
+    cv2.imwrite('green_image.jpg', cv2.cvtColor(green_img, cv2.COLOR_RGB2BGR))
+    cv2.imwrite('blue_image.jpg', cv2.cvtColor(blue_img, cv2.COLOR_RGB2BGR))
+    
+    # Hiển thị ảnh
+    plt.figure(figsize=(15, 5))
+    
+    plt.subplot(141)
+    plt.imshow(img_rgb)
+    plt.title('Ảnh gốc')
+    plt.axis('off')
+    
+    plt.subplot(142)
+    plt.imshow(red_img)
+    plt.title('Ảnh kênh đỏ')
+    plt.axis('off')
+    
+    plt.subplot(143)
+    plt.imshow(green_img)
+    plt.title('Ảnh kênh xanh lá')
+    plt.axis('off')
+    
+    plt.subplot(144)
+    plt.imshow(blue_img)
+    plt.title('Ảnh kênh xanh dương')
+    plt.axis('off')
+    
+    plt.tight_layout()
+    plt.show()
+    
+    print("Đã lưu 3 ảnh với 3 màu khác nhau.")
+
+# Bài 2: Viết chương trình nạp một ảnh và hoán đổi giá trị các màu. Lưu các ảnh vào máy.
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+#bai2
+# Đọc ảnh
+img = cv2.imread('bird.png')
+
+# Kiểm tra xem ảnh có được đọc thành công không
+if img is None:
+    print("Không thể đọc ảnh. Vui lòng kiểm tra đường dẫn.")
+else:
+    # Chuyển từ BGR sang RGB để hiển thị
+    img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    
+    # Hoán đổi các kênh màu
+    # Hoán đổi R và G
+    rg_swap = img_rgb.copy()
+    rg_swap[:, :, [0, 1]] = rg_swap[:, :, [1, 0]]
+    
+    # Hoán đổi R và B
+    rb_swap = img_rgb.copy()
+    rb_swap[:, :, [0, 2]] = rb_swap[:, :, [2, 0]]
+    
+    # Hoán đổi G và B
+    gb_swap = img_rgb.copy()
+    gb_swap[:, :, [1, 2]] = gb_swap[:, :, [2, 1]]
+    
+    # Lưu các ảnh
+    cv2.imwrite('rg_swap.jpg', cv2.cvtColor(rg_swap, cv2.COLOR_RGB2BGR))
+    cv2.imwrite('rb_swap.jpg', cv2.cvtColor(rb_swap, cv2.COLOR_RGB2BGR))
+    cv2.imwrite('gb_swap.jpg', cv2.cvtColor(gb_swap, cv2.COLOR_RGB2BGR))
+    
+    # Hiển thị ảnh
+    plt.figure(figsize=(15, 5))
+    
+    plt.subplot(141)
+    plt.imshow(img_rgb)
+    plt.title('Ảnh gốc')
+    plt.axis('off')
+    
+    plt.subplot(142)
+    plt.imshow(rg_swap)
+    plt.title('Hoán đổi R-G')
+    plt.axis('off')
+    
+    plt.subplot(143)
+    plt.imshow(rb_swap)
+    plt.title('Hoán đổi R-B')
+    plt.axis('off')
+    
+    plt.subplot(144)
+    plt.imshow(gb_swap)
+    plt.title('Hoán đổi G-B')
+    plt.axis('off')
+    
+    plt.tight_layout()
+    plt.show()
+    
+    print("Đã lưu 3 ảnh với các kênh màu hoán đổi.")
+
+# Bài 3: Viết chương trình nạp một ảnh, chuyển thành hệ màu HSV và lưu 3 ảnh với 3 màu khác nhau.
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+#bai3
+# Đọc ảnh
+img = cv2.imread('bird.png')
+
+# Kiểm tra xem ảnh có được đọc thành công không
+if img is None:
+    print("Không thể đọc ảnh. Vui lòng kiểm tra đường dẫn.")
+else:
+    # Chuyển từ BGR sang HSV
+    img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    
+    # Tạo 3 ảnh với 3 kênh HSV riêng biệt
+    # Chỉ giữ kênh H (Hue - Màu sắc)
+    h_img = img_hsv.copy()
+    h_img[:, :, 1] = 255  # Đặt Saturation thành tối đa
+    h_img[:, :, 2] = 255  # Đặt Value thành tối đa
+    
+    # Chỉ giữ kênh S (Saturation - Độ bão hòa)
+    s_img = img_hsv.copy()
+    s_img[:, :, 0] = 0    # Đặt Hue thành 0 (đỏ)
+    s_img[:, :, 2] = 255  # Đặt Value thành tối đa
+    
+    # Chỉ giữ kênh V (Value - Độ sáng)
+    v_img = img_hsv.copy()
+    v_img[:, :, 0] = 0    # Đặt Hue thành 0 (đỏ)
+    v_img[:, :, 1] = 0    # Đặt Saturation thành 0
+    
+    # Chuyển trở lại BGR để lưu
+    h_img_bgr = cv2.cvtColor(h_img, cv2.COLOR_HSV2BGR)
+    s_img_bgr = cv2.cvtColor(s_img, cv2.COLOR_HSV2BGR)
+    v_img_bgr = cv2.cvtColor(v_img, cv2.COLOR_HSV2BGR)
+    
+    # Lưu các ảnh
+    cv2.imwrite('h_channel.jpg', h_img_bgr)
+    cv2.imwrite('s_channel.jpg', s_img_bgr)
+    cv2.imwrite('v_channel.jpg', v_img_bgr)
+    
+    # Chuyển sang RGB để hiển thị
+    img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    h_img_rgb = cv2.cvtColor(h_img_bgr, cv2.COLOR_BGR2RGB)
+    s_img_rgb = cv2.cvtColor(s_img_bgr, cv2.COLOR_BGR2RGB)
+    v_img_rgb = cv2.cvtColor(v_img_bgr, cv2.COLOR_BGR2RGB)
+    
+    # Hiển thị ảnh
+    plt.figure(figsize=(15, 5))
+    
+    plt.subplot(141)
+    plt.imshow(img_rgb)
+    plt.title('Ảnh gốc')
+    plt.axis('off')
+    
+    plt.subplot(142)
+    plt.imshow(h_img_rgb)
+    plt.title('Kênh H (Hue)')
+    plt.axis('off')
+    
+    plt.subplot(143)
+    plt.imshow(s_img_rgb)
+    plt.title('Kênh S (Saturation)')
+    plt.axis('off')
+    
+    plt.subplot(144)
+    plt.imshow(v_img_rgb)
+    plt.title('Kênh V (Value)')
+    plt.axis('off')
+    
+    plt.tight_layout()
+    plt.show()
+    
+    print("Đã lưu 3 ảnh với 3 kênh HSV khác nhau.")
+
+# Bài 4: Viết chương trình nạp một ảnh, chuyển sang hệ màu HSV. Lưu ảnh mới với kênh Hnew = 1/3 Hold, Vnew = 3/4 Vold.
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+#bai4
+# Đọc ảnh
+img = cv2.imread('bird.png')
+
+# Kiểm tra xem ảnh có được đọc thành công không
+if img is None:
+    print("Không thể đọc ảnh. Vui lòng kiểm tra đường dẫn.")
+else:
+    # Chuyển từ BGR sang HSV
+    img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    
+    # Tạo bản sao để chỉnh sửa
+    modified_hsv = img_hsv.copy()
+    
+    # Chỉnh sửa kênh H và V theo yêu cầu
+    # H_new = 1/3 * H_old
+    modified_hsv[:, :, 0] = modified_hsv[:, :, 0] / 3
+    
+    # V_new = 3/4 * V_old
+    modified_hsv[:, :, 2] = modified_hsv[:, :, 2] * 3 // 4
+    
+    # Chuyển trở lại BGR để lưu
+    modified_bgr = cv2.cvtColor(modified_hsv, cv2.COLOR_HSV2BGR)
+    
+    # Lưu ảnh
+    cv2.imwrite('modified_hsv.jpg', modified_bgr)
+    
+    # Chuyển sang RGB để hiển thị
+    img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    modified_rgb = cv2.cvtColor(modified_bgr, cv2.COLOR_BGR2RGB)
+    
+    # Hiển thị ảnh
+    plt.figure(figsize=(10, 5))
+    
+    plt.subplot(121)
+    plt.imshow(img_rgb)
+    plt.title('Ảnh gốc')
+    plt.axis('off')
+    
+    plt.subplot(122)
+    plt.imshow(modified_rgb)
+    plt.title('Ảnh sau khi chỉnh sửa HSV')
+    plt.axis('off')
+    
+    plt.tight_layout()
+    plt.show()
+    
+    print("Đã lưu ảnh với kênh H = 1/3 H_gốc và V = 3/4 V_gốc.")
+
+# Bài 5: Viết chương trình sử dụng mean filter cho các hình trong thư mục Exercise
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+
+#bai5
+# Đường dẫn đến thư mục Exercise
+exercise_dir = 'exercise'
+
+try:
+    # Liệt kê các file ảnh trong thư mục Exercise
+    image_files = [f for f in os.listdir(exercise_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp'))]
+    
+    if not image_files:
+        print(f"Không tìm thấy file ảnh nào trong thư mục {exercise_dir}")
+    else:
+        # Xử lý từng ảnh
+        for img_file in image_files:
+            # Đường dẫn đầy đủ đến file ảnh
+            img_path = os.path.join(exercise_dir, img_file)
+            
+            # Đọc ảnh
+            img = cv2.imread(img_path)
+            
+            if img is None:
+                print(f"Không thể đọc ảnh {img_path}")
+                continue
+            
+            # Áp dụng mean filter với các kích thước khác nhau
+            kernel_sizes = [3, 5, 7]
+            filtered_images = []
+            
+            for ksize in kernel_sizes:
+                # Áp dụng mean filter
+                filtered = cv2.blur(img, (ksize, ksize))
+                filtered_images.append((filtered, ksize))
+            
+            # Tạo tên file đầu ra
+            file_name, file_ext = os.path.splitext(img_file)
+            
+            # Lưu các ảnh đã lọc
+            for filtered_img, ksize in filtered_images:
+                output_path = os.path.join(exercise_dir, f"{file_name}_mean_{ksize}x{ksize}{file_ext}")
+                cv2.imwrite(output_path, filtered_img)
+            
+            # Chuyển sang RGB để hiển thị
+            img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            
+            # Hiển thị ảnh gốc và các ảnh đã lọc
+            plt.figure(figsize=(15, 5))
+            
+            plt.subplot(141)
+            plt.imshow(img_rgb)
+            plt.title(f'Ảnh gốc: {img_file}')
+            plt.axis('off')
+            
+            for i, (filtered_img, ksize) in enumerate(filtered_images):
+                plt.subplot(142 + i)
+                plt.imshow(cv2.cvtColor(filtered_img, cv2.COLOR_BGR2RGB))
+                plt.title(f'Mean filter {ksize}x{ksize}')
+                plt.axis('off')
+            
+            plt.tight_layout()
+            plt.show()
+        
+        print(f"Đã xử lý và lưu tất cả ảnh trong thư mục {exercise_dir}")
+
+except Exception as e:
+    print(f"Lỗi: {e}")
+    print("Vui lòng kiểm tra lại thư mục Exercise và đảm bảo nó tồn tại.")
